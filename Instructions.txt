@@ -1,0 +1,4 @@
+To create database using .sql file
+- create database x;
+- use x;
+- source path_to_sql_file; (Without Quotes)
