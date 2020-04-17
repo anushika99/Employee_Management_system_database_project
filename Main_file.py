@@ -12,7 +12,7 @@ def connect_database():
   mydb = mysql.connector.connect(
     host='localhost',
     user='root',
-    password='anushi123',
+    password='pass',
     database='dbms_project'
   )
   return mydb
