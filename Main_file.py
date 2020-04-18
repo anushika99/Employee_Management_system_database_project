@@ -4,6 +4,7 @@ import mysql.connector
 import View_Job_openings
 import View_Workshops
 import Check_login_id
+import Client_project_info
 
 
 # connecting to mysql database
@@ -12,10 +13,34 @@ def connect_database():
   mydb = mysql.connector.connect(
     host='localhost',
     user='root',
-    password='pass',
-    database='dbms_project'
+    password='anushi123',
+    database='dbms'
   )
   return mydb
+
+
+# client
+def client(mycursor, id):
+  # Finding Client Name
+  mycursor.execute('SELECT company_name FROM clients WHERE id= '+str(id))
+  myresult = mycursor.fetchall()
+  client_name = '--------Welcome '
+  for x in myresult:
+    client_name = client_name + x[0] +'--------------'
+
+  print()
+  print(client_name)
+  print('1. Check the current projects')
+  print('2. View Past projects')
+  op = int(input('Enter choice:'))
+  ch = input('Continue/Back:')
+
+  if ch == 'Back':
+    login_menu(mycursor)
+  else:
+    if op == 1:
+      Client_project_info.client_project_info_current(mycursor, id)
+      client(mycursor, id)
 
 
 # login into system
@@ -31,7 +56,13 @@ def login_menu(mycursor):
   if proceed == 'Continue':
     result = Check_login_id.check_login_id(mycursor, id, password, user)
     if result:
-      print('Login Successful')
+      if user == 'Employee':
+        print("Login")
+      elif user == 'Client':
+        print('Login Successful')
+        client(mycursor, id)
+      else:
+        print('Login Successful')
     else:
       print('UserId or Password Wrong')
       print('Try Again')
