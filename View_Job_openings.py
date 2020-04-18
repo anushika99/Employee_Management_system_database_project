@@ -2,7 +2,8 @@
 from tabulate import tabulate
 
 
-def view_job_openings_query(mycursor):
+def view_job_openings_query(mydb):
+    mycursor = mydb.cursor()
     print('------Job Openings --------')
     print()
     mycursor.execute("SELECT * FROM opening")
@@ -13,4 +14,5 @@ def view_job_openings_query(mycursor):
         result_list.append(tuple_list)
     print(tabulate(result_list, headers=['S.No', 'Job Designation', 'Description', 'Skills Required', 'Experience', 'Salary']))
     print()
-
+    mycursor.close()
+    return

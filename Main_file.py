@@ -1,5 +1,6 @@
 # Import Statements
 import mysql.connector
+import os
 # importing python files
 import View_Job_openings
 import View_Workshops
@@ -20,14 +21,14 @@ def connect_database():
 
 
 # client
-def client(mycursor, id):
+def client(mydb, id):
+  mycursor = mydb.cursor()
   # Finding Client Name
   mycursor.execute('SELECT company_name FROM clients WHERE id= '+str(id))
   myresult = mycursor.fetchall()
   client_name = '--------Welcome '
   for x in myresult:
     client_name = client_name + x[0] +'--------------'
-
   print()
   print(client_name)
   print('1. Check the current projects')
@@ -36,16 +37,18 @@ def client(mycursor, id):
   ch = input('Continue/Back:')
 
   if ch == 'Back':
-    login_menu(mycursor)
+    mycursor.close()
+    login_menu(mydb)
   else:
     if op == 1:
-      Client_project_info.client_project_info_current(mycursor, id)
-      client(mycursor, id)
+      mycursor.close()
+      Client_project_info.client_project_info_current(mydb, id)
+      client(mydb, id)
 
 
 # login into system
-def login_menu(mycursor):
-
+def login_menu(mydb):
+  mycursor = mydb.cursor()
   print('------Login-------')
   print()
   id = int(input('Enter UserId:'))
@@ -54,26 +57,30 @@ def login_menu(mycursor):
   proceed = input('Continue/Back:')
 
   if proceed == 'Continue':
-    result = Check_login_id.check_login_id(mycursor, id, password, user)
+    result = Check_login_id.check_login_id(mydb, id, password, user)
     if result:
       if user == 'Employee':
         print("Login")
       elif user == 'Client':
         print('Login Successful')
-        client(mycursor, id)
+        # print('\n'*80)
+        # os.system('cls')
+        mycursor.close()
+        client(mydb, id)
       else:
         print('Login Successful')
     else:
+      mycursor.close()
       print('UserId or Password Wrong')
       print('Try Again')
-      login_menu(mycursor)
+      login_menu(mydb)
   else:
-    start_menu(mycursor)
+    start_menu(mydb)
 
 
 # starting menu
-def start_menu(mycursor):
-
+def start_menu(mydb):
+  mycursor = mydb.cursor()
   print('------Employee Management System-------')
   print()
   print('1. Login')
@@ -85,18 +92,23 @@ def start_menu(mycursor):
   ch = int(input('Enter choice:'))
 
   if ch == 1:
-    login_menu(mycursor)
+    # os.system('cls')
+    mycursor.close()
+    login_menu(mydb)
   elif ch == 2:
-    View_Job_openings.view_job_openings_query(mycursor)
-    start_menu(mycursor)
+    # os.system('cls')
+    mycursor.close()
+    View_Job_openings.view_job_openings_query(mydb)
+    # os.system('cls')
+    start_menu(mydb)
   elif ch == 3:
-    View_Workshops.view_workshops(mycursor)
-    start_menu(mycursor)
+    mycursor.close()
+    View_Workshops.view_workshops(mydb)
+    start_menu(mydb)
   else:
     return
 
 
 if __name__ == '__main__':
   mydb = connect_database()
-  mycursor = mydb.cursor()
-  start_menu(mycursor)
+  start_menu(mydb)

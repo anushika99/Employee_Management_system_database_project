@@ -2,7 +2,8 @@
 from tabulate import tabulate
 
 
-def view_workshops(mycursor):
+def view_workshops(mydb):
+    mycursor = mydb.cursor()
     print('------Workshops/Events --------')
     print()
     mycursor.execute("SELECT * FROM workshop_event")
@@ -15,3 +16,4 @@ def view_workshops(mycursor):
         result_list.append(tuple_list)
     print(tabulate(result_list, headers=['S.No', 'Event Name', 'Description', 'Date']))
     print()
+    mycursor.close()
