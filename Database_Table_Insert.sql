@@ -246,29 +246,50 @@ insert into Employee_Performance values(46,	5,	0,	10,	10,	10);
 insert into Employee_Performance values(47,	45,	10,	5,	9,	8);
 insert into Employee_Performance values(48,	76,	6,	7,	3,	9);
 insert into Employee_Performance values(49,	155,	6,	4,	6,	8);
-/* Meeting Table
+/* Meeting Table Info
 -----
 */
-create table Meetings(id int,purpose varchar(100),date DATETIME,employee_id integer, caller_id integer, FOREIGN KEY (employee_id) REFERENCES employee_personal_info(employee_id) );
-insert into Meetings values(0,"Operational Review Discussion",	'2020-01-03 08:32:33',	5,	22);
-insert into Meetings values(0,"Operational Review Discussion",	'2020-01-03 08:32:33',	17,	22);
-insert into Meetings values(1,"Team Training and Development",	'2020-01-25 01:31:41',	38,	4);
-insert into Meetings values(2,"Creativity and New Ideas",	'2020-01-01 06:06:54',	23,	6);
-insert into Meetings values(3,"Recognition of Employees",	'2020-01-28 04:12:47',	12,	14);
-insert into Meetings values(4,"Customer Service",	'2020-01-04 18:49:16',	9,	22);
-insert into Meetings values(5,"Training and Development",	'2020-01-06 02:58:25',	5,	45);
-insert into Meetings values(6,"New Products and Services",	'2020-02-03 12:32:06',	23,	1);
-insert into Meetings values(7,"Team Goals"	,	'2020-01-01 23:46:26',	0,	31);
-insert into Meetings values(8,"Problem Clients"	,	'2020-01-02 09:40:11',	17,	29);
-insert into Meetings values(9,"Sales Technique"	,	'2020-01-08 15:44:56',	19,	11);
-insert into Meetings values(10,"Past Performance"	,	'2020-02-02 03:58:55',	0,	11);
-insert into Meetings values(11,"Future Goals"	,	'2020-02-03 10:07:19',	23,	18);
-insert into Meetings values(11,"Future Goals"	,	'2020-02-03 10:07:19',	3,	18);
-insert into Meetings values(12,"Product Launch"	,	'2020-02-04 10:07:19',	42,	10);
-insert into Meetings values(13,"Industry Trends"	,	'2020-02-03 10:07:19',	23,	16);
-insert into Meetings values(14,"New Sales Strategy"	,	'2020-02-03 23:25:40',	31,	2);
-insert into Meetings values(14,"New Sales Strategy"	,	'2020-02-03 23:25:40',	19,	2);
-insert into Meetings values(15,"Current vs. Projected Sales"	,	'2020-01-10 14:19:17',	1,	18);
+create table Meetings(id int PRIMARY KEY,purpose varchar(100),date DATETIME,caller_id integer, FOREIGN KEY (caller_id) REFERENCES employee_personal_info(employee_id));
+insert into Meetings values(0,"Operational Review Discussion",	'2020-01-03 08:32:33',22);
+insert into Meetings values(1,"Team Training and Development",	'2020-01-25 01:31:41',4);
+insert into Meetings values(2,"Creativity and New Ideas",	'2020-01-01 06:06:54',	6);
+insert into Meetings values(3,"Recognition of Employees",	'2020-01-28 04:12:47',	14);
+insert into Meetings values(4,"Customer Service",	'2020-01-04 18:49:16',	22);
+insert into Meetings values(5,"Training and Development",	'2020-01-06 02:58:25',	45);
+insert into Meetings values(6,"New Products and Services",	'2020-02-03 12:32:06',	1);
+insert into Meetings values(7,"Team Goals"	,	'2020-01-01 23:46:26', 31);
+insert into Meetings values(8,"Problem Clients"	,	'2020-01-02 09:40:11',	29);
+insert into Meetings values(9,"Sales Technique"	,	'2020-01-08 15:44:56',	11);
+insert into Meetings values(10,"Past Performance"	,	'2020-02-02 03:58:55',	11);
+insert into Meetings values(11,"Future Goals"	,	'2020-02-03 10:07:19',	18);
+insert into Meetings values(12,"Product Launch"	,	'2020-02-04 10:07:19',	10);
+insert into Meetings values(13,"Industry Trends"	,	'2020-02-03 10:07:19',	16);
+insert into Meetings values(14,"New Sales Strategy"	,	'2020-02-03 23:25:40',	2);
+insert into Meetings values(14,"New Sales Strategy"	,	'2020-02-03 23:25:40',	2);
+insert into Meetings values(15,"Current vs. Projected Sales"	,	'2020-01-10 14:19:17',	18);
+/* Meeting Attendee Table
+-----
+*/
+create table Meetings_employee(id int,employee_id integer, FOREIGN KEY (employee_id) REFERENCES employee_personal_info(employee_id),FOREIGN KEY (id) REFERENCES Meetings(id) );
+insert into Meetings_employee values(0,	5);
+insert into Meetings_employee values(0,17);
+insert into Meetings_employee values(1,	38);
+insert into Meetings_employee values(2,23);
+insert into Meetings_employee values(3,	12);
+insert into Meetings_employee values(4,	9);
+insert into Meetings_employee values(5,5);
+insert into Meetings_employee values(6,23);
+insert into Meetings_employee values(7,0);
+insert into Meetings_employee values(8,17);
+insert into Meetings_employee values(9,19);
+insert into Meetings_employee values(10,0);
+insert into Meetings_employee values(11,23);
+insert into Meetings_employee values(11,3);
+insert into Meetings_employee values(12,42);
+insert into Meetings_employee values(13,23);
+insert into Meetings_employee values(14,31);
+insert into Meetings_employee values(14,19);
+insert into Meetings_employee values(15,1);
 /* Opening Table
 -----
 */
@@ -299,39 +320,62 @@ insert into company_statistics values(2016,39,553412653,401326352,991556783);
 insert into company_statistics values(2017,38,530863962,436380764,838528220);
 insert into company_statistics values(2018,45,541163751,446492122,861401913);
 insert into company_statistics values(2019,50,581547038,512275338,966274073);
-
-/* Tasks  Table
+/* Tasks  Table Info
 -----
 */
-create table tasks(id int, description varchar(1000), date Date, employee_id int,FOREIGN KEY (employee_id) REFERENCES employee_personal_info(employee_id));
-insert into tasks values(0,"5G is the fifth generation wireless technology for ","2020-0-0",29);
-insert into tasks values(0,"5G is the fifth generation wireless technology for ","2020-0-0",30);
-insert into tasks values(0,"5G is the fifth generation wireless technology for ","2020-0-0",31);
-insert into tasks values(1,"digital cellular networks that began wide deployment ","2020-1-1",1);
-insert into tasks values(2,"in 2019. As with previous standards, the covered areas ","2020-2-2",2);
-insert into tasks values(3,"are divided into regions called , serviced by","2020-3-3",3);
-insert into tasks values(4,"individual antennas. Virtually every major telecommunication","2020-4-4",4);
-insert into tasks values(4,"individual antennas. Virtually every major telecommunication","2020-4-4",5);
-insert into tasks values(4,"individual antennas. Virtually every major telecommunication","2020-4-4",8);
-insert into tasks values(5," service provider in the developed world is deploying antennas ","2020-5-5",5);
-insert into tasks values(6,"or intends to deploy them soon. The frequency spectrum of 5G is ","2020-6-6",6);
-insert into tasks values(7,"divided into millimeter waves, mid-band and low-band. ","2020-7-7",7);
-insert into tasks values(8,"Low-band uses a similar frequency range as the predecessor, 4G.","2020-8-8",8);
-insert into tasks values(9,"5G millimeter wave is the fastest, with actual ","2020-9-9",9);
-insert into tasks values(9,"5G millimeter wave is the fastest, with actual ","2020-9-9",26);
-insert into tasks values(10,"speeds often being 1â€“2 Gb/s down. Frequencies ","2020-0-10",10);
-insert into tasks values(11,"are above 24 GHz reaching up to 72 GHz which is","2020-1-11",11);
-insert into tasks values(12,"above the extremely high frequency band's lower boundary.","2020-2-12",12);
-insert into tasks values(12,"above the extremely high frequency band's lower boundary.","2020-2-12",25);
-insert into tasks values(13,"The reach is short, so more cells are required. Millimeter ","2020-3-13",13);
-insert into tasks values(14,"waves have difficulty traversing many walls and windows, so indoor coverage is limited.","2020-4-14",14);
-insert into tasks values(15,"5G mid-band is the most widely deployed, in over ","2020-5-15",15);
-insert into tasks values(16,"20 networks. Speeds in a 100 MHz wide band are usually","2020-6-16",16);
-insert into tasks values(17,"100â€“400 Mb/s down. In the lab and occasionally in the field","2020-7-17",17);
-insert into tasks values(18,"speeds can go over a gigabit per second. Frequencies deployed ","2020-8-18",18);
-insert into tasks values(19,"are from 2.4 GHz to 4.2 GHz. Sprint and China Mobile are using 2.5","2020-9-19",19);
-insert into tasks values(19,"are from 2.4 GHz to 4.2 GHz. Sprint and China Mobile are using 2.5","2020-9-19",20);
-insert into tasks values(19,"are from 2.4 GHz to 4.2 GHz. Sprint and China Mobile are using 2.5","2020-9-19",21);
+create table tasks_info(id int PRIMARY KEY, description varchar(1000), date Date,status varchar(10));
+insert into tasks_info values(0,"5G is the fifth generation wireless technology for ","2020-0-0","InProgress");
+insert into tasks_info values(1,"digital cellular networks that began wide deployment ","2020-1-1","InProgress");
+insert into tasks_info values(2,"in 2019. As with previous standards, the covered areas ","2020-2-2","Completed");
+insert into tasks_info values(3,"are divided into regions called , serviced by","2020-3-3","Ongoing");
+insert into tasks_info values(4,"individual antennas. Virtually every major telecommunication","2020-4-4","InProgress");
+insert into tasks_info values(5," service provider in the developed world is deploying antennas ","2020-5-5","InProgress");
+insert into tasks_info values(6,"or intends to deploy them soon. The frequency spectrum of 5G is ","2020-6-6","Completed");
+insert into tasks_info values(7,"divided into millimeter waves, mid-band and low-band. ","2020-7-7","Ongoing");
+insert into tasks_info values(8,"Low-band uses a similar frequency range as the predecessor, 4G.","2020-8-8","Completed");
+insert into tasks_info values(9,"5G millimeter wave is the fastest, with actual ","2020-9-9","Ongoing");
+insert into tasks_info values(10,"speeds often being 1â€“2 Gb/s down. Frequencies ","2020-0-10","Completed");
+insert into tasks_info values(11,"are above 24 GHz reaching up to 72 GHz which is","2020-1-11","InProgress");
+insert into tasks_info values(12,"above the extremely high frequency band's lower boundary.","2020-2-12","Completed");
+insert into tasks_info values(13,"The reach is short, so more cells are required. Millimeter ","2020-3-13","Ongoing");
+insert into tasks_info values(14,"waves have difficulty traversing many walls and windows, so indoor coverage is limited.","2020-4-14","InProgress");
+insert into tasks_info values(15,"5G mid-band is the most widely deployed, in over ","2020-5-15","Completed");
+insert into tasks_info values(16,"20 networks. Speeds in a 100 MHz wide band are usually","2020-6-16","InProgress");
+insert into tasks_info values(17,"100â€“400 Mb/s down. In the lab and occasionally in the field","2020-7-17","Ongoing");
+insert into tasks_info values(18,"speeds can go over a gigabit per second. Frequencies deployed ","2020-8-18","InProgress");
+insert into tasks_info values(19,"are from 2.4 GHz to 4.2 GHz. Sprint and China Mobile are using 2.5","2020-9-19","Completed");
+/* tasks_user
+-----
+*/
+create table tasks_employee(id int, employee_id int, FOREIGN KEY (employee_id) REFERENCES employee_personal_info(employee_id), FOREIGN KEY (id) REFERENCES tasks_info(id));
+insert into tasks_employee values(0,29);
+insert into tasks_employee values(0,30);
+insert into tasks_employee values(0,31);
+insert into tasks_employee values(1,1);
+insert into tasks_employee values(2,2);
+insert into tasks_employee values(3,3);
+insert into tasks_employee values(4,4);
+insert into tasks_employee values(4,5);
+insert into tasks_employee values(4,8);
+insert into tasks_employee values(5,5);
+insert into tasks_employee values(6,6);
+insert into tasks_employee values(7,7);
+insert into tasks_employee values(8,8);
+insert into tasks_employee values(9,9);
+insert into tasks_employee values(9,26);
+insert into tasks_employee values(10,10);
+insert into tasks_employee values(11,11);
+insert into tasks_employee values(12,12);
+insert into tasks_employee values(12,25);
+insert into tasks_employee values(13,13);
+insert into tasks_employee values(14,14);
+insert into tasks_employee values(15,15);
+insert into tasks_employee values(16,16);
+insert into tasks_employee values(17,17);
+insert into tasks_employee values(18,18);
+insert into tasks_employee values(19,19);
+insert into tasks_employee values(19,20);
+insert into tasks_employee values(19,21);
 /* Client  Table
 -----
 */

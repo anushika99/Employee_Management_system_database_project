@@ -8,7 +8,11 @@ create table employee_personal_info(employee_id int PRIMARY KEY, name varchar(50
 
 create table Employee_Performance(id int, task_complete int, backlogs int, comm_skill int, FOREIGN KEY (ID) REFERENCES employee_personal_info(employee_id), output_quality int,analytic_skill int);
 
-create table Meetings(id int,purpose varchar(100),date DATETIME,employee_id integer, caller_id integer, FOREIGN KEY (employee_id) REFERENCES employee_personal_info(employee_id) );
+create table Employee_UserId(id int, password varchar(20), FOREIGN KEY (id) REFERENCES employee_personal_info(employee_id));
+
+create table Meetings(id int PRIMARY KEY,purpose varchar(100),date DATETIME,caller_id integer, FOREIGN KEY (caller_id) REFERENCES employee_personal_info(employee_id));
+
+create table Meetings_employee(id int,employee_id integer, FOREIGN KEY (employee_id) REFERENCES employee_personal_info(employee_id),FOREIGN KEY (id) REFERENCES Meetings(id) );
 
 create table opening(id int PRIMARY KEY, job_profile varchar(50), description varchar(500), skill_requirements varchar(200),  experience varchar(20), salary_package int);
 
@@ -16,9 +20,12 @@ create table workshop_event(event_name varchar(100), description varchar(500), d
 
 create table company_statistics(year int,manpower int,budget int,expenditure int, revenue int);
 
-create table tasks(id int, description varchar(1000), date Date, employee_id int,FOREIGN KEY (employee_id) REFERENCES employee_personal_info(employee_id));
+create table tasks_info(id int PRIMARY KEY, description varchar(1000), date Date,status varchar(10));
+
+create table tasks_employee(id int, employee_id int, FOREIGN KEY (employee_id) REFERENCES employee_personal_info(employee_id), FOREIGN KEY (id) REFERENCES tasks_info(id));
 
 create table clients(id int,  company_name varchar(50), company_address_id int, phone bigint, current_project_description varchar(1000), task_id int, start_date Date,PRIMARY KEY(id),FOREIGN KEY (company_address_id) REFERENCES address(id));
 
-create table Intern(intern_id int, name varchar(20), gender varchar(20), address_id int, Phone bigint, startDate Date, EndDate Date, Stipend Float, manager_id int, task_id int, PRIMARY KEY(intern_id), FOREIGN KEY (address_id) REFERENCES address(id), FOREIGN KEY (manager_id) REFERENCES employee_personal_Info(employee_id));
+create table Client_UserId(id int, password varchar(20), FOREIGN KEY (id) REFERENCES clients(id));
 
+create table Intern(intern_id int, name varchar(20), gender varchar(20), address_id int, Phone bigint, startDate Date, EndDate Date, Stipend Float, manager_id int, task_id int, PRIMARY KEY(intern_id), FOREIGN KEY (address_id) REFERENCES address(id), FOREIGN KEY (manager_id) REFERENCES employee_personal_Info(employee_id));
