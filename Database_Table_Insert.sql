@@ -265,7 +265,6 @@ insert into Meetings values(11,"Future Goals"	,	'2020-02-03 10:07:19',	18);
 insert into Meetings values(12,"Product Launch"	,	'2020-02-04 10:07:19',	10);
 insert into Meetings values(13,"Industry Trends"	,	'2020-02-03 10:07:19',	16);
 insert into Meetings values(14,"New Sales Strategy"	,	'2020-02-03 23:25:40',	2);
-insert into Meetings values(14,"New Sales Strategy"	,	'2020-02-03 23:25:40',	2);
 insert into Meetings values(15,"Current vs. Projected Sales"	,	'2020-01-10 14:19:17',	18);
 /* Meeting Attendee Table
 -----
@@ -376,20 +375,34 @@ insert into tasks_employee values(18,18);
 insert into tasks_employee values(19,19);
 insert into tasks_employee values(19,20);
 insert into tasks_employee values(19,21);
-/* Client  Table
+/* Client Info Table
 -----
 */
-create table clients(id int,  company_name varchar(50), company_address_id int, phone bigint, current_project_description varchar(1000), task_id int, start_date Date,PRIMARY KEY(id),FOREIGN KEY (company_address_id) REFERENCES address(id));
-insert into clients values(0,	"Cetera Systems",	60,	7555512146,	"The potential is to give the people something casual to wear something that makes them feel comfortable yet strong",12,'2019-11-08');
-insert into clients values(1,	"Trusted Assortment",	61,	8555126140, 	"The initial idea was to use them as marketing tools to sell music, but when it changed and became creative products using the art of using all became a worldwide success",11,	'2019-10-01');
-insert into clients values(2,	"Resource Refresh",	62,	7555277203, 	"Sell and buy products on a small website. The potential of innovative idea was the active participation of users in the transaction",10,	'2020-01-08');
-insert into clients values(3,	"Make It Count",	63,	9055598090,	"The idea that they were used by groups had closed, but the popularity was such that expanded to take over all the web",19,	'2019-10-01');
-insert into clients values(4,	"Dream Collection",	64,	9755595368, 	"Projects television series have always had an innate success, but to make them part of reality, these grew immensely",	3,	'2019-10-19');
-insert into clients values(5,	"Forge Ahead",	65,	9955509433,	"Telling true stories with real people and everyday experiences of life itself made the difference",16,	'2020-01-16');
-insert into clients values(6,	"Complete Collection",	66,	9155576600,	"The power of this idea is that we all know that acting is sincere and you identify with the stories and characters",13,	'2019-09-21');
-insert into clients values(7,	"Trinkets And Toys",	67,	8555750142,	"The discs, videos, movie posters and packaging have always been used to advertise",2,	'2019-11-01');
-insert into clients values(8,	"Rock And Random",	68,	8655758349,	"The music business moves million a day through this portal that had the innovative idea to offer songs for less than a dollar", 4,	'2020-01-25');
-insert into clients values(9,	"Wishful Wants",	69,	7555013359,	"Before 2000 this business was not possible because they simply did not exist, so first I had to do was create the market through a small device",9,	'2019-12-22');
+create table clients(id int,  company_name varchar(50), company_address_id int, phone bigint,PRIMARY KEY(id),FOREIGN KEY (company_address_id) REFERENCES address(id));
+insert into clients values(0,	"Cetera Systems",	60,	7555512146);
+insert into clients values(1,	"Trusted Assortment",	61,	8555126140);
+insert into clients values(2,	"Resource Refresh",	62,	7555277203);
+insert into clients values(3,	"Make It Count",	63,	9055598090);
+insert into clients values(4,	"Dream Collection",	64,	9755595368);
+insert into clients values(5,	"Forge Ahead",	65,	9955509433);
+insert into clients values(6,	"Complete Collection",	66,	9155576600);
+insert into clients values(7,	"Trinkets And Toys",	67,	8555750142);
+insert into clients values(8,	"Rock And Random",	68,	8655758349);
+insert into clients values(9,	"Wishful Wants",	69,	7555013359);
+/* Client Project Table
+----
+*/
+create table clients_project(id int,task_id int,FOREIGN KEY (task_id) REFERENCES tasks_info(id),FOREIGN KEY (id) REFERENCES clients(id));
+insert into clients_project values(0,12);
+insert into clients_project values(1,11);
+insert into clients_project values(2,10);
+insert into clients_project values(3,19);
+insert into clients_project values(4, 3);
+insert into clients_project values(5,16);
+insert into clients_project values(6,13);
+insert into clients_project values(7,2);
+insert into clients_project values(8, 4);
+insert into clients_project values(9,9);
 /* Client UserId
 -----
 */

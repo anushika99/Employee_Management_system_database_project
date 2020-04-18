@@ -24,7 +24,9 @@ create table tasks_info(id int PRIMARY KEY, description varchar(1000), date Date
 
 create table tasks_employee(id int, employee_id int, FOREIGN KEY (employee_id) REFERENCES employee_personal_info(employee_id), FOREIGN KEY (id) REFERENCES tasks_info(id));
 
-create table clients(id int,  company_name varchar(50), company_address_id int, phone bigint, current_project_description varchar(1000), task_id int, start_date Date,PRIMARY KEY(id),FOREIGN KEY (company_address_id) REFERENCES address(id));
+create table clients(id int,  company_name varchar(50), company_address_id int, phone bigint,PRIMARY KEY(id),FOREIGN KEY (company_address_id) REFERENCES address(id));
+
+create table clients_project(id int,task_id int,FOREIGN KEY (task_id) REFERENCES tasks_info(id),FOREIGN KEY (id) REFERENCES clients(id));
 
 create table Client_UserId(id int, password varchar(20), FOREIGN KEY (id) REFERENCES clients(id));
 
