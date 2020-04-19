@@ -1,11 +1,16 @@
 # Import Statements
 import mysql.connector
 import os
+
 # importing python files
 import View_Job_openings
 import View_Workshops
 import Check_login_id
 import Client_project_info
+import view_all_tasks
+import view_info_employee_client
+import sys
+import create_new_task
 
 
 # connecting to mysql database
@@ -18,6 +23,81 @@ def connect_database():
     database='dbms'
   )
   return mydb
+
+
+# director page
+def director(mydb):
+  print('----------Welcome-----------')
+  print()
+  print('1. View all the Projects')
+  print('2. View Information of  Employees')
+  print('3. View information of a Client')
+  print('4. Assign new tasks')
+  print('5. Call Meeting')
+  print('6. Show Meetings')
+  print('7. View Company Statistics')
+  print('8. Add the statistics for the year')
+  print('9. Back')
+  print()
+  op = int(input('Enter Choice: '))
+  if op == 1:
+    view_all_tasks.view_tasks(mydb)
+    director(mydb)
+  elif op == 2:
+    print()
+    print()
+    while True:
+      print('a. View all the employees')
+      print('b. View all Employees of a specific Department')
+      print('c. View Information of a specific Employee')
+      print('d. Back')
+      ch = input('Enter option: ')
+      if ch == 'a':
+        view_info_employee_client.view_all_employee(mydb)
+        print()
+      elif ch == 'b':
+        dept = input('Enter Department Name: ')
+        while not view_info_employee_client.check_department(mydb,dept):
+          dept = input('Department Name Entered Wrong, Enter Again: ')
+        view_info_employee_client.view_employee_department(mydb, dept)
+        print()
+      elif ch == 'c':
+        emp_id = int(input('Enter Employee Id: '))
+        while not view_info_employee_client.check_emp_id(mydb,emp_id):
+          emp_id = int(input('Employee Id entered Wrong, enter again: '))
+        view_info_employee_client.view_employee_info(mydb, emp_id)
+        print()
+      else:
+        print()
+        print()
+        director(mydb)
+  elif op == 3:
+    print()
+    print()
+    while True:
+      print('a. View all the Clients')
+      print('b. View Information of a specific Client')
+      print('c. Back')
+      ch = input('Enter option: ')
+      if ch == 'a':
+        view_info_employee_client.view_all_clients(mydb)
+        print()
+      elif ch == 'b':
+        id = int(input('Enter Client Id: '))
+        while not view_info_employee_client.check_client_id(mydb,id):
+          id = int(input('Client Id entered Wrong, enter again: '))
+        view_info_employee_client.view_client(mydb,id)
+      else:
+        print()
+        print()
+        director(mydb)
+  elif op == 4:
+    create_new_task.create_task(mydb)
+    print()
+    director(mydb)
+  else:
+    login_menu(mydb)
+
 
 
 # client
@@ -33,10 +113,11 @@ def client(mydb, id):
   print(client_name)
   print('1. Check the current projects')
   print('2. View Past projects')
+  print('3: Back')
   op = int(input('Enter choice:'))
-  ch = input('Continue/Back:')
+  # ch = input('Continue/Back:')
 
-  if ch == 'Back':
+  if op == 3:
     mycursor.close()
     login_menu(mydb)
   else:
@@ -44,11 +125,14 @@ def client(mydb, id):
       mycursor.close()
       Client_project_info.client_project_info_current(mydb, id)
       client(mydb, id)
+    elif op == 2:
+      mycursor.close()
+      Client_project_info.client_project_info_past(mydb, id)
+      client(mydb, id)
 
 
 # login into system
 def login_menu(mydb):
-  mycursor = mydb.cursor()
   print('------Login-------')
   print()
   id = int(input('Enter UserId:'))
@@ -65,12 +149,13 @@ def login_menu(mydb):
         print('Login Successful')
         # print('\n'*80)
         # os.system('cls')
-        mycursor.close()
         client(mydb, id)
+        login_menu(mydb)
       else:
         print('Login Successful')
+        director(mydb)
+        login_menu(mydb)
     else:
-      mycursor.close()
       print('UserId or Password Wrong')
       print('Try Again')
       login_menu(mydb)
@@ -106,7 +191,7 @@ def start_menu(mydb):
     View_Workshops.view_workshops(mydb)
     start_menu(mydb)
   else:
-    return
+    sys.exit(0)
 
 
 if __name__ == '__main__':

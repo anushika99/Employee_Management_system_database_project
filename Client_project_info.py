@@ -55,5 +55,35 @@ def client_project_info_current(mydb,id):
     return
 
 
-# # view details of past project of client
-# def client_project_info_past(mycursor,id):
+# view details of past project of client
+def client_project_info_past(mydb,id):
+    mycursor = mydb.cursor()
+    print('----------Past Projects------')
+    print()
+    query = 'SELECT id, description, date, status FROM tasks_info WHERE status =\'Completed\' AND id IN(SELECT task_id FROM clients_project WHERE id=' + str(id) +')'
+    mycursor.execute(query)
+    result_list = []
+    myresult = mycursor.fetchall()
+    count = 1
+    task_id_list = []
+    for x in myresult:
+        task_id_list.append(x[0])
+        tuple_list = [count, x[1], x[2],x[3]]
+        count = count +1
+        result_list.append(tuple_list)
+    print(tabulate(result_list, headers=['S.No', 'Project Description', 'Deadline', 'Status']))
+    print()
+    print('Total number of Past projects: '+str(len(result_list)))
+
+    # option of seeing the employees working on a project
+    ch = input('Want to see Contact Information of Employees Worked on the Project(Y/N): ')
+    while ch == 'Y':
+        op = int(input('Enter the project Serial Number: '))
+        task_id = task_id_list[op - 1]
+        task_employee_info(mydb,task_id)
+        op = input('Continue/Back: ')
+        if op == 'Back':
+            ch == 'N'
+            break
+    mycursor.close()
+    return
