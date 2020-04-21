@@ -11,7 +11,9 @@ import view_all_tasks
 import view_info_employee_client
 import sys
 import create_new_task
-
+import Meetings
+import Company_stats
+import Update_password_personalInfo
 
 # connecting to mysql database
 # run command pip install mysql-connector-python to use the default caching_sha2_password plugin
@@ -37,7 +39,9 @@ def director(mydb):
   print('6. Show Meetings')
   print('7. View Company Statistics')
   print('8. Add the statistics for the year')
-  print('9. Back')
+  print('9. Update Password')
+  print('10. Update Personal Information')
+  print('11. Back')
   print()
   op = int(input('Enter Choice: '))
   if op == 1:
@@ -95,9 +99,32 @@ def director(mydb):
     create_new_task.create_task(mydb)
     print()
     director(mydb)
+  elif op == 5:
+      Meetings.call_new_meeting(mydb, 0)
+      print()
+      director(mydb)
+  elif op == 6:
+    Meetings.view_meetings(mydb, 0)
+    print()
+    director(mydb)
+  elif op == 7:
+      Company_stats.view_company_stas(mydb)
+      print()
+      director(mydb)
+  elif op == 8:
+      Company_stats.add_company_stats(mydb)
+      print()
+      director(mydb)
+  elif op == 9:
+      Update_password_personalInfo.update_password(mydb, 0)
+      print()
+      director(mydb)
+  elif op == 10:
+      Update_password_personalInfo.update_personal_info(mydb, 0)
+      print()
+      director(mydb)
   else:
     login_menu(mydb)
-
 
 
 # client

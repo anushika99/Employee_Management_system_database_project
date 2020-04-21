@@ -2,7 +2,12 @@
 def check_login_id(mydb, id, password, user):
     mycursor = mydb.cursor()
     if user == 'Director':
-        if id == 0 and password == 'wljbtgmymi':
+        mycursor.execute("SELECT password FROM Employee_UserId WHERE id = 0")
+        myresult = mycursor.fetchall()
+        mycursor.close()
+        for x in myresult:
+            paswrd = x[0]
+        if id == 0 and password == paswrd:
             return True
         else:
             return False
