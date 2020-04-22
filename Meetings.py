@@ -13,6 +13,7 @@ def get_employee_name_given_id(mydb,id):
         return x[0]
 
 
+### TODO -- show only those meetings that are after the current meeting
 # viewing all the meetings(that needs to attended or called) of a specific employee
 def view_meetings(mydb, id):
     mycursor = mydb.cursor()

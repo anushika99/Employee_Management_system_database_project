@@ -27,6 +27,50 @@ def connect_database():
   return mydb
 
 
+# employee that is not hr employee
+def normal_employee(mydb, id):
+    employee_name = Meetings.get_employee_name_given_id(mydb, id)
+    print('-------Welcome '+ employee_name + '--------')
+    print('1. View Information')
+    print('2. View Tasks')
+    print('3. Create new Task ')
+    print('4. View Meetings')
+    print('5. Schedule new meeting')
+    print('6. Update Password')
+    print('7. Update Personal Info')
+    print('8. Back')
+    print()
+    op = int(input('Enter Choice: '))
+    if op == 1:
+        view_info_employee_client.view_employee_info(mydb, id)
+        print()
+        normal_employee(mydb, id)
+    elif op == 2:
+        view_all_tasks.view_tasks_employee(mydb, id)
+        print()
+        normal_employee(mydb ,id)
+    elif op == 3:
+        create_new_task.create_task(mydb)
+        print()
+        normal_employee(mydb, id)
+    elif op == 4:
+        Meetings.view_meetings(mydb,id)
+        print()
+        normal_employee(mydb, id)
+    elif op == 5:
+        Meetings.call_new_meeting(mydb, id)
+        print()
+        normal_employee(mydb,id)
+    elif op == 6:
+        Update_password_personalInfo.update_password(mydb, id)
+        print()
+        normal_employee(mydb, id)
+    elif op == 7:
+        Update_password_personalInfo.update_personal_info(mydb, id)
+    else:
+        login_menu(mydb)
+
+
 # director page
 def director(mydb):
   print('----------Welcome-----------')
@@ -171,17 +215,21 @@ def login_menu(mydb):
     result = Check_login_id.check_login_id(mydb, id, password, user)
     if result:
       if user == 'Employee':
-        print("Login")
+        print("Login Successful")
+        ######
+        # TODO - check for hr employee and normal employee to be done here
+        ######
+        normal_employee(mydb, id)
       elif user == 'Client':
         print('Login Successful')
         # print('\n'*80)
         # os.system('cls')
         client(mydb, id)
-        login_menu(mydb)
+        # login_menu(mydb)
       else:
         print('Login Successful')
         director(mydb)
-        login_menu(mydb)
+        # login_menu(mydb)
     else:
       print('UserId or Password Wrong')
       print('Try Again')
