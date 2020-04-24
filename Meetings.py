@@ -2,7 +2,7 @@
 from tabulate import tabulate
 import create_new_task  # to take valid date, month, year input
 import view_info_employee_client # for taking client input for new meeting entry
-
+from datetime import datetime
 
 # helper function - to get employee_name corresponding to employee_id
 def get_employee_name_given_id(mydb,id):
@@ -13,11 +13,12 @@ def get_employee_name_given_id(mydb,id):
         return x[0]
 
 
-### TODO -- show only those meetings that are after the current meeting
 # viewing all the meetings(that needs to attended or called) of a specific employee
 def view_meetings(mydb, id):
+    now = datetime.now()
+    current_date_time = now.strftime("%Y-%m-%d %H:%M:%S")
     mycursor = mydb.cursor()
-    query = 'SELECT * FROM meetings, meetings_employee WHERE meetings.id = meetings_employee.id AND (caller_id = '+ str(id) +' OR employee_id ='+ str(id) +')'
+    query = 'SELECT * FROM meetings, meetings_employee WHERE meetings.id = meetings_employee.id AND (caller_id = '+ str(id) +' OR employee_id ='+ str(id) +') AND date >=\'' + current_date_time+'\''
     print(query)
     mycursor.execute(query)
     myresult = mycursor.fetchall()
@@ -35,8 +36,11 @@ def view_meetings(mydb, id):
             tuple_list  = [x[0], x[1], x[2], caller_name, attendee_name]
             result_list.append(tuple_list)
 
-    print('Total no. of Meetings: ' + str(len(result_list)))
-    print(tabulate(result_list, headers=['Meeting_Id', 'Meeting purpose', 'Meeting date & time', 'Caller', 'Attendee']))
+    if len(result_list) == 0:
+        print('No Meeting Scheduled')
+    else:
+        print('Total no. of Meetings: ' + str(len(result_list)))
+        print(tabulate(result_list, headers=['Meeting_Id', 'Meeting purpose', 'Meeting date & time', 'Caller', 'Attendee']))
     print()
     return
 
