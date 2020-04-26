@@ -582,6 +582,9 @@ def employee(mydb, id):
                 for x in myresult:
                     mycursor.execute('UPDATE Intern SET manager_id = '+str(manager_id)+' WHERE intern_id = '+str(x[0]))
                     mydb.commit()
+
+                mycursor.execute('DELETE FROM leave_request WHERE employee_id = '+ emp_id)
+                mycursor.execute('UPDATE leave_request SET manager_id = ' + str(manager_id) + ' WHERE manager_id = ' + emp_id)
                 mycursor.execute('DELETE FROM Employee_Performance WHERE id = '+ emp_id)
                 mycursor.execute('DELETE FROM Employee_UserID WHERE id = ' + emp_id)
                 mycursor.execute('DELETE FROM tasks_employee WHERE employee_id = ' + emp_id)
