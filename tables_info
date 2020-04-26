@@ -31,3 +31,5 @@ create table clients_project(id int,task_id int,FOREIGN KEY (task_id) REFERENCES
 create table Client_UserId(id int, password varchar(20), FOREIGN KEY (id) REFERENCES clients(id));
 
 create table Intern(intern_id int, name varchar(20), gender varchar(20), address_id int, Phone bigint, startDate Date, EndDate Date, Stipend Float, manager_id int, task_id int, PRIMARY KEY(intern_id), FOREIGN KEY (address_id) REFERENCES address(id), FOREIGN KEY (manager_id) REFERENCES employee_personal_Info(employee_id));
+
+create table leave_request(employee_id int, manager_id int, startDate Date, EndDate Date, Reason varchar(100) , status int, FOREIGN KEY (manager_id) REFERENCES employee_personal_info(employee_id), FOREIGN KEY (employee_id) REFERENCES employee_personal_info(employee_id));
