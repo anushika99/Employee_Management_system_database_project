@@ -16,7 +16,11 @@ def task_employee_info(mycursor, task_id):
         tuple_list = [count, x[0], x[1], x[2], x[3]]
         count = count + 1
         result_list.append(tuple_list)
+    if len(result_list) == 0:
+        print('No employee working in the task')
+        return
     print(tabulate(result_list, headers=['S.No', 'Name', 'Contact No. ', 'Designation', 'Department']))
+    mycursor.close()
     return
 
 
@@ -31,6 +35,10 @@ def task_other_employee_info(mycursor, task_id, id):
         tuple_list = [count, x[0], x[1], x[2], x[3]]
         count = count + 1
         result_list.append(tuple_list)
+    if len(result_list) == 0:
+        print('No other employeees working on the task')
+        print()
+        return
     print(tabulate(result_list, headers=['S.No', 'Name', 'Contact No. ', 'Designation', 'Department']))
     return
 

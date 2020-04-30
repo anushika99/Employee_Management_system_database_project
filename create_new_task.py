@@ -1,5 +1,5 @@
 """ Employees/Director Adding new Task """
-
+import mail
 
 def checkYear(year): 
     if (year % 4) == 0: 
@@ -124,10 +124,12 @@ def create_task(mydb):
 	sql = "INSERT INTO tasks_info (id,description,Date,status) VALUES (%s,%s,%s,%s)"
 	val = (task,description,date_due,'InProgress')
 	mycursor.execute(sql,val)
+	task_details = 'Description- '+description + ' Deadline- '+ date_due
 	for i in emp:
 		sql = "INSERT INTO tasks_employee (id,employee_id) VALUES (%s,%s)"
 		val = (task, i)
 		mycursor.execute(sql, val)
+		mail.send_notification_tasks(task_details, mydb, i)
 	print('Added the new Task')
 	mydb.commit()
 	mycursor.close()

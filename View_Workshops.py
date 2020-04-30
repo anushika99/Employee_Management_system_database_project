@@ -1,12 +1,16 @@
 # Import Statement
 from tabulate import tabulate
+from datetime import datetime
 
 
 def view_workshops(mydb):
     mycursor = mydb.cursor()
+    now = datetime.now()
+    current_date_time = now.strftime("%Y-%m-%d %H:%M:%S")
     print('------Workshops/Events --------')
     print()
-    mycursor.execute("SELECT * FROM workshop_event")
+    mycursor.execute('SELECT * FROM workshop_event WHERE date >=\''+current_date_time[:10]+'\'')
+    # print('SELECT * FROM workshop_event WHERE date >=\''+current_date_time[:10]+'\'')
     result_list =[]
     myresult = mycursor.fetchall()
     count = 1
